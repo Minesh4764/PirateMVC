@@ -1,0 +1,322 @@
+$(document).ready (function(){
+
+  $('.reset').click(function() {
+	location.reload(true);		
+	});
+	var numCorrect = 0;
+    	var currentQuestion = 0;
+
+ $(".quiz-wrapper").css("display", "block");
+
+$(".start").css("display","none");
+
+
+var Bartender = function () 
+{
+//wrapping object variable in function. I hate Global variable.
+
+
+	this.ObjQuestion = [{
+		question: "1. Do ye like yer drinks strong?", 
+	     answers:["Yes","No"],
+	     Taste:"strong"
+
+		},
+		{
+		question:"2.Do ye like it with a salty tang?",
+		answers:["Yes","No"],
+		  Taste: "salty"
+		
+		},
+		{
+		question:"3.Are ye a lubber who likes it bitter?",
+	  	answers:["Yes","No"] ,
+	  	Taste:"bitter"
+		 
+		},
+		{
+		question:"4. Would ye like a bit of sweetness with yer poison?",		
+	     answers:["Yes","No"],
+	      	Taste: "sweet"
+		 
+		},
+		{ 
+		question:"5. Are ye one for a fruity finish?",
+	     answers:["Yes","No"],
+	     	Taste: "fruit"
+		 
+
+		}]
+     this.userPreferences=[];
+     this.CurrentQues =null;
+
+	}
+
+Bartender.prototype.createDrink =function (pantryobj) { 
+   var Objprop ;
+   this.PreparedDrink =[];
+
+
+		var DrinkIngredeint="";
+
+		var count =pantryobj.ingredients.length
+		for ( i=0;i<Objbartender.userPreferences.length;i++)
+		 {
+		 	for (j=0;j<count;j++) {
+		           if(this.userPreferences[i] == pantryobj.ingredients[j].category) {
+		  
+		                           this.PreparedDrink.push( pantryobj.ingredients[j].name);
+		           }
+
+		      }
+		         DrinkIngredeint += this.PreparedDrink[Math.floor(Math.random() * this.PreparedDrink.length)] + "  "; 
+
+		      console.log(this.PreparedDrink);
+		      console.log(DrinkIngredeint);
+
+		     // console.log("This is " + finaldrink);
+		    }
+
+		    Objbartender.DrinkIngredeint = DrinkIngredeint;
+		 
+
+
+  
+
+}
+
+
+
+
+
+function Ingredient(name, category){
+  this.name = name;
+  this.category = category;
+}
+
+	var Pantry = function(ingredients) {
+            this.ingredients =ingredients;
+	    }
+var myPantry = new Pantry(
+  [
+  //adding two at once.
+    new Ingredient('glug of Rum', 'strong'),
+    new Ingredient('slug of Whiskey', 'strong'),
+    new Ingredient('splash of Gin', 'strong'),
+    new Ingredient('olive on a stick', 'salty'),
+    new Ingredient('salt-dusted rim', 'salty'),
+    new Ingredient('rasher of bacon', 'salty'),
+    new Ingredient('shake of bitters', 'bitter'),
+    new Ingredient('splash of tonic', 'bitter'),
+    new Ingredient('twist of lemon peel', 'bitter'),
+    new Ingredient('sugar cube', 'sweet'),
+    new Ingredient('spoonful of honey', 'sweet'),
+    new Ingredient('splash of Cola', 'sweet'),
+    new Ingredient('slick of orange', 'fruity'),
+    new Ingredient('dash of cassis', 'sweet'),
+    new Ingredient('cherry on top', 'sweet')
+  ]
+);
+
+
+
+var Objbartender = new Bartender();
+
+$(".start").click(CreateQuestion(Objbartender));
+
+
+    //populate question and answers
+//CreateQuestion(ObjQuestion,currentQuestion,numCorrect);
+//}
+
+
+ function CreateQuestion(Objbartender) {
+ 	//alert(currentQuestion);
+
+ 	if (currentQuestion <=4 )
+ {   // for (var i=0;i<Objbartender.ObjQuestion.length;i++) {
+	     $("#quiz h3").html(Objbartender.ObjQuestion[currentQuestion].question);
+	     $("label").html(Objbartender.ObjQuestion[currentQuestion].answers[0]);
+	     $("#answerTwo + label").html(Objbartender.ObjQuestion[currentQuestion].answers[1]);
+
+	     console.log(Objbartender.userPreferences);
+
+
+  }
+  else {
+          
+   
+
+
+  }
+   //}
+}
+
+
+
+//View//
+function View() {
+    this.btn = $('.nextBtn');
+   // this.btn = $('.nextBtn1');//BIND TO DIFFERENT FUNCTION
+    this.resetbtn =$('.progress');
+    this.onClick = null;
+ //  this.resetbtn.click(this.resetview.bind(this));
+    this.btn.click(this.nextQuestion.bind(this));
+
+
+};
+
+/*View.prototype.resetview=function() {
+	console.log("resetbutton is pressed");
+this.onClick();
+
+};
+*/
+
+View.prototype.nextQuestion =function() {
+
+    var radioSelect = $('input:radio[name=answer]:checked').val();
+    this.onClick(radioSelect);
+
+}
+View.prototype.render = function(display,htmldis,data){
+//question
+
+		 var htmlTodisplay = this.htmllog.call(data,htmldis);
+		 if(htmlTodisplay) {
+		       $(display).html(htmlTodisplay);
+		 }
+		 else {
+		 	$(display).html(data);
+		 }
+};
+
+
+
+View.prototype.htmllog = function(htmldis){
+
+	 
+	if (htmldis == "question") 
+	{
+	return `
+
+	<form id="quiz">
+		<h3>${this.Question}</h3>
+		<p class="summary"></p>
+		<p><input type="radio" name="answer" value="Yes" id="answerOne" value="0"> a. Yes <label for="answerOne" id="answer"></label></p>
+	   <p><input type="radio" name="answer" value ="no" id="answerTwo" value="1"> b.  No<label for="answerTwo" id="answer"></label></p>
+	  	</form>` 
+		}
+	else   {
+	     
+	     	 $(".quiz-wrapper").css("display", "none");
+			 $(".results").css("display", "block");
+		
+		     return
+
+	        }
+
+
+};
+
+
+
+
+
+Bartender.prototype.StartQuiz=function() {
+	 this.CurrentQues =0;
+	//alert("minesh");
+	var Ques = this.ObjQuestion[this.CurrentQues];
+	console.log(Ques);
+	var Question,category;
+	return {
+	           Question : Ques.question,
+	            category : Ques.Taste
+
+          };
+};
+
+
+
+
+Bartender.prototype.NextQuestion=function() {
+    if(this.CurrentQues < 4) {
+     this.CurrentQues++;
+			 var Ques = this.ObjQuestion[this.CurrentQues];
+			   console.log("nextquestion" + Ques);
+			   var Question,category;
+			  return {
+			           Question : Ques.question,
+			            category : Ques.Taste
+
+			    };
+      }
+      return;
+
+ };
+ 
+
+
+
+
+//*****Main controller ****////
+
+var Controller = function(model,view){
+
+	this.model =model;
+	this.view=view;
+    this.view.onClick = this.NextDisplayQUestion.bind(this);
+   //this.view.onClick =this.resetform.bind(this);
+};
+
+/*Controller.prototype.resetform =function() {
+
+	alert("reset if pressed");
+}
+*/
+Controller.prototype.NextDisplayQUestion = function(radioSelect) {
+         
+           if (radioSelect =="Yes") {
+             //we are allowed to manupulate the model in a controller
+             this.model.userPreferences.push(this.model.ObjQuestion[this.model.CurrentQues].Taste); 
+         
+            }
+
+            var data = this.model.NextQuestion()
+          if(data) {
+
+                this.view.render('.quiz-wrapper', 'question',data); 
+            }
+   else {      
+          
+           this.model.createDrink(myPantry);
+           this.view.render('#amountRight','serve',this.model.DrinkIngredeint);
+
+    }
+
+}
+
+   Controller.prototype.init = function() {
+       console.log("I am here");
+     if (this.model.CurrentQues==null) {
+         var data = this.model.StartQuiz();
+         console.log("data:this" + data.Question);
+          this.view.render('.quiz-wrapper', 'question',data); 
+      }
+   };
+
+  var view = new View();
+  var ctrl = new Controller(Objbartender,view);
+
+
+
+$(function(){
+     ctrl.init();
+});
+
+
+});
+
+
+
+
