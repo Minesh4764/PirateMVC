@@ -1,8 +1,8 @@
 $(document).ready (function(){
 
-  $('.reset').click(function() {
-	location.reload(true);		
-	});
+  //$('.reset').click(function() {
+//	location.reload(true);		
+//	});
 	var numCorrect = 0;
     	var currentQuestion = 0;
 
@@ -160,18 +160,17 @@ function View() {
    // this.btn = $('.nextBtn1');//BIND TO DIFFERENT FUNCTION
     this.resetbtn =$('.progress');
     this.onClick = null;
- //  this.resetbtn.click(this.resetview.bind(this));
+    this.resetClick =null;
+    this.resetbtn.click(this.resetview.bind(this));
     this.btn.click(this.nextQuestion.bind(this));
 
 
 };
 
-/*View.prototype.resetview=function() {
-	console.log("resetbutton is pressed");
-this.onClick();
-
+View.prototype.resetview=function() {
+  this.resetClick();
 };
-*/
+
 
 View.prototype.nextQuestion =function() {
 
@@ -180,17 +179,14 @@ View.prototype.nextQuestion =function() {
 
 }
 View.prototype.render = function(display,htmldis,data){
-//question
-
 		 var htmlTodisplay = this.htmllog.call(data,htmldis);
 		 if(htmlTodisplay) {
 		       $(display).html(htmlTodisplay);
 		 }
 		 else {
-		 	$(display).html(data);
+		  	 $(display).html(data);
 		 }
 };
-
 
 
 View.prototype.htmllog = function(htmldis){
@@ -266,20 +262,19 @@ var Controller = function(model,view){
 	this.model =model;
 	this.view=view;
     this.view.onClick = this.NextDisplayQUestion.bind(this);
-   //this.view.onClick =this.resetform.bind(this);
+   this.view.resetClick =this.resetform.bind(this);
 };
 
-/*Controller.prototype.resetform =function() {
-
-	alert("reset if pressed");
+Controller.prototype.resetform =function() {
+       location.reload(true);
+//	alert("reset i pressed");
 }
-*/
+
 Controller.prototype.NextDisplayQUestion = function(radioSelect) {
          
-           if (radioSelect =="Yes") {
+          if (radioSelect =="Yes") {
              //we are allowed to manupulate the model in a controller
-             this.model.userPreferences.push(this.model.ObjQuestion[this.model.CurrentQues].Taste); 
-         
+             this.model.userPreferences.push(this.model.ObjQuestion[this.model.CurrentQues].Taste);         
             }
 
             var data = this.model.NextQuestion()
