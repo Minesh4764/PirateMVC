@@ -1,8 +1,5 @@
 $(document).ready (function(){
 
-  //$('.reset').click(function() {
-//	location.reload(true);		
-//	});
 	var numCorrect = 0;
     	var currentQuestion = 0;
 
@@ -13,36 +10,29 @@ $(".start").css("display","none");
 
 var Bartender = function () 
 {
-//wrapping object variable in function. I hate Global variable.
-
 
 	this.ObjQuestion = [{
 		question: "1. Do ye like yer drinks strong?", 
-	     answers:["Yes","No"],
 	     Taste:"strong"
 
 		},
 		{
 		question:"2.Do ye like it with a salty tang?",
-		answers:["Yes","No"],
 		  Taste: "salty"
 		
 		},
 		{
 		question:"3.Are ye a lubber who likes it bitter?",
-	  	answers:["Yes","No"] ,
 	  	Taste:"bitter"
 		 
 		},
 		{
-		question:"4. Would ye like a bit of sweetness with yer poison?",		
-	     answers:["Yes","No"],
+		question:"4. Would ye like a bit of sweetness with yer poison?",
 	      	Taste: "sweet"
 		 
 		},
 		{ 
 		question:"5. Are ye one for a fruity finish?",
-	     answers:["Yes","No"],
 	     	Taste: "fruit"
 		 
 
@@ -77,16 +67,8 @@ Bartender.prototype.createDrink =function (pantryobj) {
 		     // console.log("This is " + finaldrink);
 		    }
 
-		    Objbartender.DrinkIngredeint = DrinkIngredeint;
-		 
-
-
-  
-
+		    Objbartender.DrinkIngredeint = DrinkIngredeint;  
 }
-
-
-
 
 
 function Ingredient(name, category){
@@ -122,43 +104,10 @@ var myPantry = new Pantry(
 
 var Objbartender = new Bartender();
 
-$(".start").click(CreateQuestion(Objbartender));
-
-
-    //populate question and answers
-//CreateQuestion(ObjQuestion,currentQuestion,numCorrect);
-//}
-
-
- function CreateQuestion(Objbartender) {
- 	//alert(currentQuestion);
-
- 	if (currentQuestion <=4 )
- {   // for (var i=0;i<Objbartender.ObjQuestion.length;i++) {
-	     $("#quiz h3").html(Objbartender.ObjQuestion[currentQuestion].question);
-	     $("label").html(Objbartender.ObjQuestion[currentQuestion].answers[0]);
-	     $("#answerTwo + label").html(Objbartender.ObjQuestion[currentQuestion].answers[1]);
-
-	     console.log(Objbartender.userPreferences);
-
-
-  }
-  else {
-          
-   
-
-
-  }
-   //}
-}
-
-
-
 //View//
 function View() {
     this.btn = $('.nextBtn');
-   // this.btn = $('.nextBtn1');//BIND TO DIFFERENT FUNCTION
-    this.resetbtn =$('.progress');
+    this.resetbtn =$('.res');
     this.onClick = null;
     this.resetClick =null;
     this.resetbtn.click(this.resetview.bind(this));
@@ -214,10 +163,7 @@ View.prototype.htmllog = function(htmldis){
 
 
 };
-
-
-
-
+// Model(Object or data) Enhancement for MVC
 
 Bartender.prototype.StartQuiz=function() {
 	 this.CurrentQues =0;
@@ -231,8 +177,6 @@ Bartender.prototype.StartQuiz=function() {
 
           };
 };
-
-
 
 
 Bartender.prototype.NextQuestion=function() {
@@ -252,17 +196,14 @@ Bartender.prototype.NextQuestion=function() {
  };
  
 
-
-
-
 //*****Main controller ****////
 
 var Controller = function(model,view){
-
+  //when contoller initialized bind these objects and events
 	this.model =model;
 	this.view=view;
     this.view.onClick = this.NextDisplayQUestion.bind(this);
-   this.view.resetClick =this.resetform.bind(this);
+    this.view.resetClick =this.resetform.bind(this);
 };
 
 Controller.prototype.resetform =function() {
@@ -284,11 +225,15 @@ Controller.prototype.NextDisplayQUestion = function(radioSelect) {
             }
    else {      
           
-           this.model.createDrink(myPantry);
-           this.view.render('#amountRight','serve',this.model.DrinkIngredeint);
+               this.model.createDrink(myPantry);
+               console.log("No drink Selected     " +     this.model.DrinkIngredeint);
+               if(this.model.DrinkIngredeint=="") {
+                   
+                     this.model.DrinkIngredeint =" No Drink Preference Selected"
 
-    }
-
+               }
+               this.view.render('#amountRight','serve',this.model.DrinkIngredeint);
+        }
 }
 
    Controller.prototype.init = function() {
@@ -306,7 +251,7 @@ Controller.prototype.NextDisplayQUestion = function(radioSelect) {
 
 
 $(function(){
-     ctrl.init();
+     ctrl.init(); //Populate the first question by itself.
 });
 
 
