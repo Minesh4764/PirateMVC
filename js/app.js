@@ -107,7 +107,7 @@ var Objbartender = new Bartender();
 //View//
 function View() {
     this.btn = $('.nextBtn');
-    this.resetbtn =$('.res');
+    this.resetbtn =$('.reset');
     this.onClick = null;
     this.resetClick =null;
     this.resetbtn.click(this.resetview.bind(this));
@@ -229,7 +229,7 @@ Controller.prototype.NextDisplayQUestion = function(radioSelect) {
                console.log("No drink Selected     " +     this.model.DrinkIngredeint);
                if(this.model.DrinkIngredeint=="") {
                    
-                     this.model.DrinkIngredeint =" No Drink Preference Selected"
+               this.model.DrinkIngredeint =" No Drink Preferencence"
 
                }
                this.view.render('#amountRight','serve',this.model.DrinkIngredeint);
